@@ -1,0 +1,36 @@
+sqlplus sys/oracle@localhost/orcl12c as sysdba
+
+SQL> sho pdbs;
+
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         2 PDB$SEED                       READ ONLY  NO
+         3 ORCL                           READ WRITE NO
+         4 MYNEWDB                        MOUNTED
+SQL> alter pluggable database mynewdb open;
+
+Pluggable database altered.
+
+SQL>
+SQL>
+SQL>
+SQL> sho pdbs;
+
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         2 PDB$SEED                       READ ONLY  NO
+         3 ORCL                           READ WRITE NO
+         4 MYNEWDB                        READ WRITE NO
+         
+         
+CREATE PLUGGABLE DATABASE pdb_one
+  ADMIN USER salesadm IDENTIFIED BY password
+  ROLES = (dba)
+  DEFAULT TABLESPACE users
+    DATAFILE '/u01/app/oracle/oradata/orcl12c/pdb_one/users01.dbf' SIZE 250M AUTOEXTEND ON
+  FILE_NAME_CONVERT = ('/u01/app/oracle/oradata/orcl12c/pdbseed/',
+                       '/u01/app/oracle/oradata/orcl12c/pdb_one/')
+  STORAGE (MAXSIZE 2G)
+  PATH_PREFIX = '/u01/app/oracle/oradata/orcl12c/pdb_one/';
+ 
+ alter pluggable database pdb_one open;
