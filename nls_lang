@@ -28,3 +28,7 @@ DECLARE
     if sc_NLS_NUMERIC_CHARACTERS <> st_NLS_NUMERIC_CHARACTERS then
       EXECUTE IMMEDIATE 'alter session set NLS_NUMERIC_CHARACTERS = '''||st_NLS_NUMERIC_CHARACTERS||''' ';
     end if;
+
+
+Oracle special characters might be displayed as question marks
+why oracle displays ??? fro special characters
