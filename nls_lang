@@ -1,0 +1,30 @@
+select convert(unistr('\2611'),'AL32UTF8','UTF8') from dual;
+
+
+select * from V$NLS_PARAMETERS;
+
+
+select value
+from   v$nls_parameters 
+where  parameter = 'NLS_CHARACTERSET'
+
+union all
+
+-- database characterset
+
+select value
+from   nls_database_parameters 
+where  parameter = 'NLS_CHARACTERSET';
+
+
+DECLARE
+   sc_NLS_NUMERIC_CHARACTERS varchar2(4000); -- текущие установки сессии
+   st_NLS_NUMERIC_CHARACTERS varchar2(4000) := ',.'; -- целевые установки сессии
+   
+   BEGIN
+       select value
+      into sc_NLS_NUMERIC_CHARACTERS
+      from nls_session_parameters t where t.parameter = 'NLS_NUMERIC_CHARACTERS';
+    if sc_NLS_NUMERIC_CHARACTERS <> st_NLS_NUMERIC_CHARACTERS then
+      EXECUTE IMMEDIATE 'alter session set NLS_NUMERIC_CHARACTERS = '''||st_NLS_NUMERIC_CHARACTERS||''' ';
+    end if;
